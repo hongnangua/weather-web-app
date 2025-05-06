@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>5天天气预报</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🌤 5天天气预报查询</h1>
+
+        <form method="post">
+            <input type="text" name="city" placeholder="请输入城市名称" required>
+            <button type="submit">查询</button>
+        </form>
+
+        {% if result %}
+            {% if result.error %}
+                <p style="color:red;">{{ result.error }}</p>
+            {% else %}
+                <h2>📍 {{ result.city }}, {{ result.country }}</h2>
+                <ul>
+                    {% for f in result.forecast %}
+                        <li>
+                            <strong>{{ f.time }}</strong><br>
+                            🌡 温度: {{ f.temp }}°C<br>
+                            🧣 体感温度: {{ f.feels_like }}°C<br>
+                            💧 湿度: {{ f.humidity }}%<br>
+                            🌤 天气: {{ f.desc }}
+                            <hr>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
